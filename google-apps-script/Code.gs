@@ -1,0 +1,5 @@
+const SPREADSHEET_ID = 'PEGA_AQUI_EL_ID_DE_TU_HOJA';
+const SHEET_NAME = 'Registro de citas';
+function doPost(e){try{const booking=JSON.parse(e.postData.contents||'{}');const book=SpreadsheetApp.openById(SPREADSHEET_ID);const sheet=book.getSheetByName(SHEET_NAME)||book.insertSheet(SHEET_NAME);if(sheet.getLastRow()===0)sheet.appendRow(['Referencia','Fecha de registro','Tipo de ceremonia','Fecha de ceremonia','Hora','Duración','Nombre principal','Teléfono','Correo','Invitados','Estado','Notas']);sheet.appendRow([booking.booking_reference,booking.registered_at,booking.ceremony,booking.ceremony_date,booking.time,booking.duration,booking.name,booking.phone,booking.email,booking.guests,booking.status,booking.notes]);return json({ok:true,reference:booking.booking_reference})}catch(error){return json({ok:false,error:String(error)})}}
+function doGet(){return json({ok:true,service:'Iglesia Rosa Torres'})}
+function json(value){return ContentService.createTextOutput(JSON.stringify(value)).setMimeType(ContentService.MimeType.JSON)}
